@@ -1,4 +1,4 @@
-## The following files are bash / python files that we will use in the Phylogenomics Workshop:
+## The following files are bash / python files that can be used in a typical phylogenomic study:
 
 01_gather_buscos.sh
 
