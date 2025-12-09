@@ -10,7 +10,7 @@
 
 04_filter.sh - Filter sequences < x after trimming
 
-05_concat_iqtree.sh - Cancatenate datasets and generate a maximum likelihood tree using IQtree
+05_concat_iqtree.sh - Concatenate datasets and generate a maximum likelihood tree using IQtree
 
 06_gene_trees.sh - Generate seperate genetrees, and then combine them in one file
 
