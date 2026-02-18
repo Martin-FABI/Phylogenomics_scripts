@@ -26,6 +26,8 @@ For a nice description see: https://www.robertlanfear.com/blog/files/concordance
 
 10_msa_outlier.py - Python script that detects outliers in a MSA (this is a work in progress)
 
+11_run_iqtree_per_genus.sh - A shell script to run IQtree on several data sets within a subfolder (Primary_directory --> subfolder with data)
+
 Note: All scripts to automate processess were developed by MPA Coetzee with the help of ChatGPT 5 (Thinking module)
 
 ## DATASET: 
