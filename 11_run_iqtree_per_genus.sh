@@ -5,7 +5,7 @@ IFS=$'\n\t'
 # -------------------------
 # USER SETTINGS
 # -------------------------
-EMAIL_TO="martin.coetzee@up.ac.za"
+EMAIL_TO="XXXXX"
 
 # If you know the subfolder name inside each genus folder that contains the fasta loci, set it here.
 # If not found, the script will auto-detect a subfolder containing fasta files.
