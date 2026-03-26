@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phylogenomics Workshop – Command Cheat Sheet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #0b1120;
+      --bg-code: #020617;
+      --border: #1f2937;
+      --accent: #38bdf8;
+      --accent2: #22c55e;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --accent-strong: rgba(56, 189, 248, 0.2);
+      --text: #e5e7eb;
+      --text-soft: #cbd5f5;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+      --radius-lg: 18px;
+      --radius-sm: 12px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.65);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco,
+                   Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #020617 100%);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.5;
+    }
+
+    body {
+      padding: 32px 16px 48px;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(220px, 1.3fr) minmax(0, 4.7fr); /* nav narrow, main wide */
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        display: block;
+      }
+      nav {
+        margin-bottom: 20px;
+      }
+    }
+
+    header {
+      grid-column: 1 / -1;
+      margin-bottom: 10px;
+    }
+
+    .title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .title-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.85);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0 0 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 780px;
+    }
+
+    /* NAVIGATION (narrow column) */
+    nav .nav-box {
+      position: sticky;
+      top: 16px;
+      background: linear-gradient(150deg, rgba(15,23,42,0.97), rgba(15,23,42,0.9));
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-soft);
+      padding: 14px 14px 16px;
+    }
+
+    nav h2 {
+      font-size: 15px;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav h2 span.icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #22c55e);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.75);
+      font-size: 12px;
+    }
+
+    nav p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0 0 8px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    nav ul > li {
+      margin-bottom: 6px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-soft);
+      display: inline-block;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+
+    nav a:hover {
+      background: var(--accent-soft);
+      color: #f9fafb;
+      transform: translateX(1px);
+    }
+
+    nav ul ul {
+      margin-top: 3px;
+      margin-left: 10px;
+      padding-left: 10px;
+      border-left: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    nav ul ul li {
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+
+    /* MAIN (wide column) */
+    main {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 22px;
+    }
+
+    section {
+      margin-bottom: 18px;
+      padding: 14px 14px 18px;
+      border-radius: var(--radius-sm);
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.14), rgba(15,23,42,0.98));
+      border: 1px solid rgba(31, 41, 55, 0.95);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header h2::before {
+      content: "";
+      width: 5px;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+    }
+
+    .top-link {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
+    }
+
+    .top-link:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #f9fafb;
+      transform: translateY(-0.5px);
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 14px 0 8px;
+      color: var(--text);
+    }
+
+    p {
+      font-size: 14px;
+      margin: 4px 0 8px;
+      color: var(--text);
+    }
+
+    ul, ol {
+      font-size: 14px;
+      padding-left: 20px;
+      margin: 4px 0 8px;
+      color: var(--text-soft);
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 4px;
+      border-radius: 5px;
+      border: 1px solid rgba(31, 41, 55, 0.8);
+    }
+
+    .note {
+      border-left: 3px solid var(--accent);
+      background: rgba(15, 23, 42, 0.95);
+      padding: 8px 10px;
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      color: var(--text-soft);
+      margin: 6px 0 10px;
+    }
+
+    .note-strong {
+      border-left-color: #22c55e;
+    }
+
+    .note-danger {
+      border-left-color: var(--danger);
+      background: rgba(30, 64, 175, 0.16);
+      color: #fee2e2;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .tag + .tag {
+      margin-left: 6px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 10px;
+    }
+
+    .code-block {
+      margin: 8px 0 14px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+      background: radial-gradient(circle at top left, #020617, #020617);
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.92));
+      border-bottom: 1px solid rgba(31, 41, 55, 1);
+    }
+
+    .code-title {
+      font-size: 12px;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-title .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #22c55e);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+    }
+
+    .copy-btn {
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease, color 0.15s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #f9fafb;
+      transform: translateY(-0.5px);
+    }
+
+    .copy-btn.copied {
+      background: var(--accent-strong);
+      border-color: var(--accent);
+      color: #f9fafb;
+    }
+
+    .copy-btn .icon {
+      font-size: 12px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 12px;
+      overflow-x: auto;
+      background: var(--bg-code);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e5e7eb;
+    }
+
+    pre code {
+      border: none;
+      background: transparent;
+      padding: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header id="top">
+    <div class="title-badge">
+      <span class="title-dot"></span>
+      Phylogenomics workshop · AWS + R Terminal
+    </div>
+    <h1>Command Cheat Sheet</h1>
+    <p class="subtitle">
+      Copy and paste these commands into the <strong>Terminal in R</strong> (connected to the
+      Amazon Web Services (AWS) instance). Always adapt <code>paths</code>, <code>filenames</code>, <code>specific settings</code>
+      and <code>thread numbers</code> to your own data.
+    </p>
+      <p class="subtitle">
+    	Note that I have checked for any mistakes, but it is the user's responsibility to ensure that commands and settings are correct.
+    </p>
+    <p> Martin Coetzee (December 2025)
+    </p>
+  </header>
+
+  <!-- NAV (narrow) -->
+  <nav>
+    <div class="nav-box">
+      <h2><span class="icon">§</span>Sections</h2>
+      <p>Click to jump. Sub-items link to specific command blocks.</p>
+      <ul>
+        <li><a href="#using-this-page">How to use this page</a>
+          <ul>
+            <li><a href="#using-workflow">Copy–paste workflow</a></li>
+            <li><a href="#using-paths">Adapting paths &amp; filenames</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#sessions">1. Terminal sessions (byobu / screen)</a>
+          <ul>
+            <li><a href="#sessions-terminal">Open the RStudio Terminal</a></li>
+            <li><a href="#sessions-new-byobu">Create a named byobu session</a></li>
+            <li><a href="#sessions-attach">Reattach an existing session</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#prep">2. Preparing FASTA data</a>
+          <ul>
+            <li><a href="#prep-count">Count sequences in a FASTA file</a></li>
+            <li><a href="#prep-dedup">Remove duplicate sequences (optional)</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#mafft">3. Multiple sequence alignment (MAFFT)</a>
+          <ul>
+            <li><a href="#mafft-dna">DNA (direction-adjusted)</a></li>
+            <li><a href="#mafft-single">Single-gene alignment</a></li>
+            <li><a href="#mafft-loop">Loop over many BUSCO genes</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#trimal">4. Trimming alignments (TrimAL)</a>
+          <ul>
+            <li><a href="#trimal-single">Trim one alignment</a></li>
+            <li><a href="#trimal-loop">Trim all alignments in a folder</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#filtering">5. Filtering short alignments</a>
+          <ul>
+            <li><a href="#filtering-shortseq">Filter short sequences</a></li>
+            <li><a href="#filtering-dropaln">Drop very short alignments</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#fasconcat">6. Concatenating alignments (FASconCAT-G)</a>
+          <ul>
+            <li><a href="#fasconcat-list">Create file list</a></li>
+            <li><a href="#fasconcat-run">Run FASconCAT-G</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#iqtree">7. Phylogenetic trees (IQ-TREE)</a>
+          <ul>
+            <li><a href="#iqtree-single">Single-gene tree with ModelFinder</a></li>
+            <li><a href="#iqtree-partition">Concatenated, partitioned analysis</a></li>
+            <li><a href="#iqtree-genetrees">Gene trees for ASTRAL / CF</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#snps">8. SNP / RAD-seq phylogenies (IQ-TREE)</a>
+          <ul>
+            <li><a href="#snps-single">SNP matrix with +ASC</a></li>
+            <li><a href="#snps-partition">Partitioned SNP analysis</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#astral">9. Species tree inference (ASTRAL)</a>
+          <ul>
+            <li><a href="#astral-run">Run ASTRAL on gene trees</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#gcf">10. Concordance factors (IQ-TREE 2)</a>
+          <ul>
+            <li><a href="#gcf-run">Compute gCF / sCF</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- MAIN (wide commands column) -->
+  <main>
+    <!-- HOW TO USE THIS PAGE -->
+    <section id="using-this-page">
+      <div class="section-header">
+        <h2>How to use this page</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <h3 id="using-workflow">Copy–paste workflow</h3>
+      <ol>
+        <li>Log into the <strong>AWS instance</strong> using the credentials provided for the workshop (typically via SSH).</li>
+        <li>Open <strong>RStudio Server</strong> in your browser and go to the <strong>Terminal</strong> tab (not the R Console).</li>
+        <li>Navigate to your working directory, for example:</li>
+      </ol>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Change to your project directory</div>
+          <button class="copy-btn" data-target="code-cd-project">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-cd-project">cd /path/to/your/project</code></pre>
+      </div>
+
+      <ol start="4">
+        <li>Use the <strong>Copy</strong> buttons to copy commands from this page into the Terminal.</li>
+        <li><strong>Always</strong> update file names, paths, and thread counts to match your own data and server limits.</li>
+      </ol>
+
+      <h3 id="using-paths">Adapting paths &amp; filenames</h3>
+      <ul>
+        <li><code>/path/to/...</code>, <code>my_alignment.fa</code>, <code>BUSCO001.fa</code>, etc. are <em>place-holders</em>.</li>
+        <li>Replace them with your own:
+          <ul>
+            <li>BUSCO alignment directory</li>
+            <li>RAD / SNP matrices</li>
+            <li>Number of threads your AWS instance allows</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="note note-strong">
+        <strong>Tip:</strong> Keep a simple text file (e.g. <code>my_paths.txt</code>) with your own directories and copy–paste from there.
+      </div>
+    </section>
+
+    <!-- 1. TERMINAL SESSIONS -->
+    <section id="sessions">
+      <div class="section-header">
+        <h2>1. Terminal sessions (byobu / screen)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <h3 id="sessions-terminal">Open the RStudio Terminal</h3>
+      <ol>
+        <li>In RStudio Server, click the <strong>Terminal</strong> tab (next to the Console).</li>
+        <li>If needed, create a new terminal via <strong>Terminal → New Terminal</strong>.</li>
+      </ol>
+
+      <h3 id="sessions-new-byobu">Create a named byobu session</h3>
+      <p>This keeps long jobs running even if your browser or VPN drops.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Create a named byobu session (replace <code>mysession</code>)</div>
+          <button class="copy-btn" data-target="code-byobu-new">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-byobu-new">byobu new -s mysession</code></pre>
+      </div>
+      <p>Inside <strong>byobu</strong>, run all heavy commands (MAFFT, IQ-TREE, ASTRAL, etc.).</p>
+
+      <h3 id="sessions-attach">Reattach an existing byobu session</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>List and reattach sessions</div>
+          <button class="copy-btn" data-target="code-byobu-attach">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-byobu-attach"># List existing sessions
+byobu list-sessions
+
+# Reattach (replace mysession)
+byobu attach -t mysession</code></pre>
+      </div>
+      <div class="note">
+        To detach from <strong>byobu</strong> but keep jobs running, press <strong>Ctrl+A</strong> then <strong>D</strong>.
+      </div>
+    </section>
+
+    <!-- 2. PREPARING FASTA -->
+    <section id="prep">
+      <div class="section-header">
+        <h2>2. Preparing FASTA data (pre- and post-alignment)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <h3 id="prep-count">Count sequences in a FASTA file</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Count records by header lines</div>
+          <button class="copy-btn" data-target="code-count-fasta">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-count-fasta">grep -c "^&gt;" my_sequences.fa</code></pre>
+      </div>
+
+      <h3 id="prep-dedup">Remove duplicate sequences (optional)</h3>
+      <p>If <code>seqkit</code> is available, you can quickly remove exact duplicate sequences:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Remove duplicate sequences with seqkit</div>
+          <button class="copy-btn" data-target="code-seqkit-rmdup">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-seqkit-rmdup">seqkit rmdup -s my_sequences.fa -o my_sequences.dedup.fa</code></pre>
+      </div>
+      <div class="note">
+        <strong>Alternative:</strong> If <code>seqkit</code> is not installed on your AWS image, you can skip this step or ask the instructor which deduplication tool is available.
+      </div>
+    </section>
+
+    <!-- 3. MAFFT -->
+    <section id="mafft">
+      <div class="section-header">
+        <h2>3. Multiple sequence alignment (MAFFT)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <!-- NEW DNA SUBSECTION -->
+      <h3 id="mafft-dna">DNA sequences – automatic strand direction</h3>
+      <div class="pill-row">
+        <span class="tag">DNA</span>
+        <span class="tag">MAFFT --adjustdirection</span>
+      </div>
+      <p>
+        For DNA, you can use MAFFT&rsquo;s <code>--adjustdirection</code> to automatically
+        reverse-complement sequences so that they are aligned in the same direction
+        as the <strong>first sequence</strong> in the file.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Single DNA FASTA file (direction-adjusted)</div>
+          <button class="copy-btn" data-target="code-mafft-dna-single">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-mafft-dna-single">mafft --thread 2 --reorder --adjustdirection --maxiterate 1000 --auto dna_sequences.fas &gt; dna_sequences.aligned.fas</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Batch-align many DNA FASTA files</div>
+          <button class="copy-btn" data-target="code-mafft-dna-loop">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-mafft-dna-loop">cd /path/to/fasta; for filename in *.fas; do mafft --thread 2 --reorder --adjustdirection --maxiterate 1000 --auto "$filename" &gt; "${filename%.fas}.aligned.fas"; done</code></pre>
+      </div>
+
+      <div class="note">
+        <strong>Important:</strong> Because <code>--adjustdirection</code> uses the
+        first sequence as reference for orientation, make sure that this sequence is
+        in the correct direction before running the alignment.
+      </div>
+
+      <!-- EXISTING GENERIC SUBSECTION -->
+      <h3 id="mafft-single">Align a single gene / locus (generic)</h3>
+      <div class="pill-row">
+        <span class="tag">DNA / protein</span>
+        <span class="tag">MAFFT L-INS-i</span>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Align one FASTA file</div>
+          <button class="copy-btn" data-target="code-mafft-single">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-mafft-single">mafft --maxiterate 1000 --localpair my_sequences.fa &gt; my_sequences.aln.fa</code></pre>
+      </div>
+
+      <h3 id="mafft-loop">Align many BUSCO genes in a folder</h3>
+      <p>Assume each BUSCO file ends in <code>.fa</code> and lives in <code>busco_fasta/</code>.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Loop over all FASTA files</div>
+          <button class="copy-btn" data-target="code-mafft-loop">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-mafft-loop">cd /path/to/busco_fasta; for f in *.fa; do echo "Aligning $f ..."; mafft --maxiterate 1000 --localpair "$f" &gt; "${f%.fa}.aln.fa"; done</code></pre>
+      </div>
+    </section>
+
+    <!-- 4. TRIMAL -->
+    <section id="trimal">
+      <div class="section-header">
+        <h2>4. Trimming alignments (TrimAL)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <h3 id="trimal-single">Trim one alignment</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Automatic trimming with TrimAL</div>
+          <button class="copy-btn" data-target="code-trimal-single">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-trimal-single">trimal -in my_sequences.aln.fa -out my_sequences.aln.trim.fa -automated1</code></pre>
+      </div>
+
+      <h3 id="trimal-loop">Trim all alignments in a folder</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Loop over alignment files</div>
+          <button class="copy-btn" data-target="code-trimal-loop">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-trimal-loop">cd /path/to/busco_fasta; for f in *.aln.fa; do echo "Trimming $f ..."; trimal -in "$f" -out "${f%.aln.fa}.aln.trim.fa" -automated1; done</code></pre>
+      </div>
+    </section>
+
+    <!-- 5. FILTERING -->
+    <section id="filtering">
+      <div class="section-header">
+        <h2>5. Filtering short alignments (bioawk / bash)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <h3 id="filtering-shortseq">Filter short sequences within each alignment</h3>
+      <p>Example: keep only sequences with at least 150 aa (or nt) in each alignment.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Filter sequences by length (bioawk)</div>
+          <button class="copy-btn" data-target="code-bioawk-filter">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-bioawk-filter">cd /path/to/busco_fasta; minlen=150; for f in *.aln.trim.fa; do echo "Filtering $f (min length ${minlen}) ..."; bioawk -c fastx -v L="$minlen" 'length($seq) &gt;= L {print "&gt;"$name"\n"$seq}' "$f" &gt; "${f%.aln.trim.fa}.aln.trim.filt.fa"; done</code></pre>
+      </div>
+
+      <h3 id="filtering-dropaln">Drop very short alignments before concatenation</h3>
+      <p>Example: only keep alignments with at least 200 ungapped sites.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Keep only alignments ⩾ 200 columns</div>
+          <button class="copy-btn" data-target="code-filter-aln-length">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-filter-aln-length">cd /path/to/busco_fasta; mincols=200; mkdir -p long_alignments; for f in *.aln.trim.filt.fa; do cols=$(bioawk -c fastx 'NR==1 {print length($seq); exit}' "$f"); if [ "$cols" -ge "$mincols" ]; then echo "Keeping $f ($cols columns)"; cp "$f" long_alignments/; else echo "Skipping $f ($cols columns)"; fi; done</code></pre>
+      </div>
+    </section>
+
+    <!-- 6. FASconCAT-G -->
+    <section id="fasconcat">
+      <div class="section-header">
+        <h2>6. Concatenating alignments (FASconCAT-G)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <div class="note note-strong">
+        <strong>Executable name:</strong> On some systems the script may be called
+        <code>FASconCAT-G.pl</code>, <code>FASconCAT-G_v1.04.pl</code>, or may require
+        <code>perl /path/to/FASconCAT-G.pl</code>. Use whatever works on your AWS image.
+      </div>
+
+      <h3 id="fasconcat-list">Create a file list for FASconCAT-G</h3>
+      <p>From the folder with your final per-gene alignments:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>List all FASTA alignments</div>
+          <button class="copy-btn" data-target="code-fasconcat-list">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-fasconcat-list">cd /path/to/busco_fasta/long_alignments
+
+ls *.fa &gt; FASconCAT_G.input</code></pre>
+      </div>
+
+      <h3 id="fasconcat-run">Run FASconCAT-G to create concatenated matrix + partitions</h3>
+      <p>Example for a <strong>NEXUS</strong> output and IQ-TREE partition file.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Concatenate alignments with FASconCAT-G</div>
+          <button class="copy-btn" data-target="code-fasconcat-run">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-fasconcat-run">perl FASconCAT-G.pl -s -n -p -l -o concat
+
+# Expected key outputs (names may vary):
+#   concat.fas              - concatenated alignment (FASTA)
+#   concat_partition.nex    - partition scheme for IQ-TREE
+#   concat_partitions.txt   - human-readable partition info</code></pre>
+      </div>
+    </section>
+
+    <!-- 7. IQ-TREE -->
+    <section id="iqtree">
+      <div class="section-header">
+        <h2>7. Phylogenetic tree inference (IQ-TREE 3)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <div class="note note-strong">
+        <strong>Important:</strong> The executable may be called <code>iqtree</code>,
+        <code>iqtree2</code> or <code>iqtree3</code> depending on the installation.
+        In all commands below we use <code>iqtree2</code> as a placeholder –
+        change it to whatever works on your AWS instance.
+      </div>
+
+      <div class="pill-row">
+        <span class="tag">ModelFinder (<code>-m MFP</code>)</span>
+        <span class="tag">UFBoot (<code>-B</code>)</span>
+        <span class="tag">SH-aLRT (<code>-alrt</code>)</span>
+      </div>
+
+      <h3 id="iqtree-single">7.1 Single-gene tree with ModelFinder</h3>
+      <p>Use ModelFinder (<code>-m MFP</code>) to select the best model, then infer an ML tree with SH-aLRT and ultrafast bootstrap support.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Single-gene ML tree with support</div>
+          <button class="copy-btn" data-target="code-iqtree-single">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-iqtree-single">iqtree3 -s BUSCO001.aln.trim.filt.fa -m MFP -B 1000 -alrt 1000 -T AUTO --prefix BUSCO001_ML</code></pre>
+      </div>
+
+      <h3 id="iqtree-partition">7.2 Concatenated, partitioned analysis (BUSCO genes)</h3>
+      <p>Use the concatenated matrix and FASconCAT-G partition file.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Partitioned concatenated tree with MFP+MERGE</div>
+          <button class="copy-btn" data-target="code-iqtree-partition">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-iqtree-partition">iqtree3 -s concat.fas -p concat_partition.nex -m MFP+MERGE -B 1000 -alrt 1000 -T AUTO --prefix concat_ML</code></pre>
+      </div>
+      <div class="note">
+        <strong>Why <code>MFP+MERGE</code>?</strong> IQ-TREE will both select a model per
+        partition and merge similar partitions to reduce over-parameterisation.
+      </div>
+
+   <h3 id="iqtree-partition">Concatenated, partitioned analysis (BUSCO genes)</h3>
+      <p>IQ-TREE 3 provides a new convenient feature: if you have a directory with
+many (locus) alignments, you can specify this directory directly with -p option:.</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Partitioned concatenated tree with MFP+MERGE</div>
+          <button class="copy-btn" data-target="code-iqtree-partition2">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-iqtree-partition2">iqtree3 -p directory -m MFP+MERGE -B 1000 -alrt 1000 -T AUTO --prefix concat_ML</code></pre>
+      </div>
+      <div class="note">
+        <strong>Why <code>MFP+MERGE</code>?</strong> IQ-TREE will both select a model per
+        partition and merge similar partitions to reduce over-parameterisation.
+      </div>
+
+      <h3 id="iqtree-genetrees">7.3 Gene / locus trees for ASTRAL or concordance factors</h3>
+      <p>Given a directory with one alignment per locus (e.g. <code>long_alignments/</code>), you can infer one tree per locus:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Infer gene trees for all loci</div>
+          <button class="copy-btn" data-target="code-iqtree-genetrees">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-iqtree-genetrees">cd /path/to/busco_fasta/long_alignments
+
+iqtree3 -S . -m MFP -B 1000 -T AUTO --prefix loci</code></pre>
+      </div>
+      <div class="note">
+        This uses the <code>-S</code> option to infer a separate tree for each alignment file in
+        the directory and writes them to <code>loci.loci.treefile</code>, which we will use for
+        ASTRAL and concordance factor analysis.
+      </div>
+    </section>
+
+    <!-- 8. SNP / RAD-SEQ -->
+    <section id="snps">
+      <div class="section-header">
+        <h2>8. SNP / RAD-seq phylogenies (IQ-TREE)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <div class="note note-strong">
+        <strong>Key point:</strong> SNP-only matrices typically lack constant sites. Use
+        an <strong>ascertainment bias correction</strong> by adding <code>+ASC</code> to the
+        model (e.g. <code>GTR+ASC</code> or <code>MFP+ASC</code>).
+      </div>
+
+      <h3 id="snps-single">8.1 Single SNP matrix with +ASC</h3>
+      <p>Example: SNP alignment <code>snps.phy</code> in PHYLIP/FASTA format (no constant sites).</p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Fixed model: GTR+ASC</div>
+          <button class="copy-btn" data-target="code-snps-gtr-asc">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-snps-gtr-asc">iqtree3 -s snps.phy -m GTR+ASC -B 1000 -alrt 1000 -T AUTO --prefix snps_GTR_ASC</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Let ModelFinder choose (+ASC enforced)</div>
+          <button class="copy-btn" data-target="code-snps-mfp-asc">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-snps-mfp-asc">iqtree3 -s snps.phy -m MFP+ASC -B 1000 -alrt 1000 -T AUTO --prefix snps_MFP_ASC</code></pre>
+      </div>
+
+      <h3 id="snps-partition">8.2 Partitioned SNP / RAD-seq data</h3>
+      <p>
+        If your RAD / SNP dataset is partitioned by locus (e.g. one big concatenated SNP
+        matrix with a partition file in NEXUS or RAxML style), you can combine partition
+        models with ascertainment bias correction:
+      </p>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>Partitioned SNP matrix with MFP+ASC</div>
+          <button class="copy-btn" data-target="code-snps-partition">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-snps-partition">iqtree3 -s snps_concat.phy -p snps_partitions.nex -m MFP+ASC -B 1000 -alrt 1000 -T AUTO --prefix snps_concat_ASC</code></pre>
+      </div>
+
+      <div class="note">
+        <strong>Read the log:</strong> For SNP data, always check the IQ-TREE
+        <code>.iqtree</code> file to confirm that an <code>+ASC</code> model was actually
+        used and that the number of variable and constant sites makes sense.
+      </div>
+    </section>
+
+    <!-- 9. ASTRAL -->
+    <section id="astral">
+      <div class="section-header">
+        <h2>9. Species tree inference (ASTRAL)</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <p>Assume you already generated gene trees with IQ-TREE using <code>-S .</code> and obtained <code>loci.loci.treefile</code> (Section 7.3).</p>
+
+      <h3 id="astral-run">9.1 Run ASTRAL on gene trees</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>ASTRAL species tree</div>
+          <button class="copy-btn" data-target="code-astral-run">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-astral-run">cd /path/to/busco_fasta/long_alignments
+
+java -jar /path/to/astral.jar -i loci.loci.treefile -o species_tree.astral.tre 2&gt; astral.log</code></pre>
+      </div>
+      <div class="note">
+        <strong>Tip:</strong> If ASTRAL is wrapped in a module or script on your AWS
+        system, replace <code>java -jar /path/to/astral.jar</code> with the local command
+        (e.g. <code>astral</code>).
+      </div>
+    </section>
+
+    <!-- 10. CONCORDANCE FACTORS -->
+    <section id="gcf">
+      <div class="section-header">
+        <h2>10. Concordance factors (gCF / sCF) with IQ-TREE</h2>
+        <a href="#top" class="top-link">↑ Back to top</a>
+      </div>
+
+      <p>
+        We use: (i) a <strong>species tree</strong> from the concatenated analysis
+        (<code>concat_ML.treefile</code>), (ii) <strong>gene trees</strong> from
+        <code>loci.loci.treefile</code>, and (iii) the concatenated alignment
+        (<code>concat.fas</code>).
+      </p>
+
+      <h3 id="gcf-run">10.1 Compute gene and site concordance factors</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-title"><span class="dot"></span>gCF + sCF for concatenated tree</div>
+          <button class="copy-btn" data-target="code-gcf-run">
+            <span class="icon">⧉</span>Copy
+          </button>
+        </div>
+        <pre><code id="code-gcf-run">cd /path/to/busco_fasta/long_alignments
+
+iqtree3 -t concat_ML.treefile --gcf loci.loci.treefile -s ../concat.fas --scf 100 -T AUTO --prefix concat_cf</code></pre>
+      </div>
+      <div class="note">
+        This annotates each branch in <code>concat_ML.treefile</code> with bootstrap
+        (from the original IQ-TREE run) plus gCF and sCF values, written to
+        <code>concat_cf.cf.tree</code> and <code>concat_cf.cf.stat</code>. You can
+        visualise these in FigTree or iTOL to compare support vs concordance.
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Copy-to-clipboard for all buttons
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var targetId = btn.getAttribute('data-target');
+      var codeEl = document.getElementById(targetId);
+      if (!codeEl) return;
+
+      var text = codeEl.textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.classList.add('copied');
+        var original = btn.innerHTML;
+        btn.innerHTML = '<span class="icon">✔</span>Copied';
+        setTimeout(function () {
+          btn.classList.remove('copied');
+          btn.innerHTML = original;
+        }, 1400);
+      }).catch(function () {
+        alert('Copy failed – please select and copy manually.');
+      });
+    });
+  });
+</script>
+</body>
+</html>
